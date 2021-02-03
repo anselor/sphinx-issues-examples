@@ -1,15 +1,13 @@
 Hello World
 ===========
 
-Work-around: delete this line so the following can act as a pointer to the real declaration::
-
-    .. py:attribute:: SharedTypeVar
-        :type: issue.typevar.support.SharedTypeVar
 
 
 code docs
 =========
 
-.. automodule:: issue.typevar.support
+.. automodule:: issue.any_unknown.subclass_dict
 
 .. automodule:: issue.typevar.helloworld
+
+.. automodule:: issue.typevar.support
