@@ -1,26 +1,24 @@
 from typing import (
-    Generic,
     NewType,
-    Optional,
-    TypeVar,
+)
+from ._support_part1 import (
+    SpecialString,
+)
+from ._support_part2 import (
+    ImportedParentGeneric,
+    MyTypeVar,
 )
 
-#: This TypeVar declaration doesn't get resolved when generating docs
-SharedTypeVar = TypeVar('SharedTypeVar')
+#: Custom string type
+CustomString = NewType('CustomString', str)
 
-#: NewType doesn't resolve correctly either
-SpecialInt = NewType('SpecialInt', int)
+# Adding this line appears to fix it for modules in the same package
+CustomString.__qualname__ = f'{__name__}.CustomString'
 
 
-class MyClass(Generic[SharedTypeVar]):
-    def __init__(self, value: Optional[SharedTypeVar]):
-        self._value = value
-        self._special = SpecialInt(6)
-
-    def value(self) -> SharedTypeVar:
-        return self._value
-
-    # This results in the following error:
-    # docstring of issue.typevar.support.MyClass.special::py:class reference target not found: NewType.<locals>.new_type
-    def special(self) -> SpecialInt:
-        return self._special
+__all__ = [
+    'SpecialString',
+    'CustomString',
+    'MyTypeVar',
+    'ImportedParentGeneric',
+]

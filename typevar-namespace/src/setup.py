@@ -11,7 +11,7 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name='issue-typevar-ns',
+    name='issue-newtype-ns',
     version='0.0.1',
 
     description='Hello World',

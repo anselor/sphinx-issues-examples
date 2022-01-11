@@ -1,28 +1,44 @@
 from typing import (
     Generic,
+    NewType,
     TypeVar,
 )
 
 from .support import (
-    SharedTypeVar,  # imported TypeVar doesn't resolve correctly in Sphinx
+    CustomString,
+    SpecialString,
+    ImportedParentGeneric,
+    MyTypeVar,
 )
 
-#: Locally declared and referenced TypeVar appears to work fine
+#: my type variable
 LocalTypeVar = TypeVar('LocalTypeVar')
+# MyTypeVar.__qualname__ = f'{__name__}.MyTypeVar'
+
+class ParentGeneric(Generic[LocalTypeVar]):
+
+    def __init__(self, param: LocalTypeVar) -> None:
+        super().__init__()
+        self._param: LocalTypeVar = param
 
 
-class Successful(Generic[LocalTypeVar]):
-    def __init__(self, arg: LocalTypeVar):
-        self._value = arg
-
-    def get_arg(self) -> LocalTypeVar:
-        return self._value
+#: locally declared newtype resolves correctly
+LocalCustomString = NewType('LocalCustomString', str)
 
 
-class Fails(Generic[SharedTypeVar]):
-    def __init__(self, arg: SharedTypeVar):
-        self._value = arg
+class MySubclass(ParentGeneric[LocalCustomString]):
+    """
+    [summary]
 
-    def get_arg(self) -> SharedTypeVar:
-        return self._value
+    :param ParentGeneric: [description]
+    :type ParentGeneric: [type]
+    """
+    Local: LocalCustomString = LocalCustomString('Local')
+    Imported: CustomString = CustomString('Imported')
+    Special: SpecialString = SpecialString('Special')
 
+
+class MySubclass2(ImportedParentGeneric[SpecialString]):
+    def __init__(self, param: SpecialString) -> None:
+        super().__init__(param)
+        
